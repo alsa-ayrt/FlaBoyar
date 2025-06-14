@@ -2,8 +2,8 @@ import tcod
 
 from engine import Engine
 from input_handlers import EventHandler
-from codigo.actors.entity import Entity
-from codigo.tiles.game_map import GameMap
+from actors.entity import Entity
+from tiles.game_map import GameMap
 
 
 def main():

@@ -1,5 +1,5 @@
 import numpy as np
-from codigo.tiles import tile_types
+from tiles import tile_types
 from tcod.console import Console
 
 

@@ -3,9 +3,9 @@ from typing import Set, Iterable, Any
 from tcod.context import Context
 from tcod.console import Console
 
-from codigo.actors.entity import Entity
+from actors.entity import Entity
 from input_handlers import EventHandler
-from codigo.tiles.game_map import GameMap
+from tiles.game_map import GameMap
 
 
 class Engine:
