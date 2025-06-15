@@ -13,7 +13,6 @@ class Action:
         raise NotImplementedError()
 
 
-
 class EscapedAction(Action):
     def perform(self, engine: Engine, entity: Entity) -> None:
         raise SystemExit()

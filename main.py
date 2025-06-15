@@ -13,6 +13,10 @@ def main():
     map_width = 60
     map_height = 55
 
+    room_min_size = 6
+    room_max_size = 10
+    max_rooms = 20
+
     tileset = tcod.tileset.load_tilesheet("img1.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
 
     event_handler = EventHandler()
@@ -21,7 +25,14 @@ def main():
     npc = Entity(1, 1, "@", (255, 255, 0))
     entities = {npc, player}
 
-    game_map = generate_dungeon(map_width, map_height)
+    game_map = generate_dungeon(
+        max_rooms=max_rooms,
+        room_min_size=room_min_size,
+        room_max_size=room_max_size,
+        map_width=map_width,
+        map_height=map_height,
+        player=player,
+    )
 
     engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
 
