@@ -1,4 +1,5 @@
-from typing import Iterable, Any
+from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from tcod.context import Context
 from tcod.console import Console
@@ -8,25 +9,22 @@ from actors.entity import Entity
 from input_handlers import EventHandler
 from tiles.game_map import GameMap
 
+if TYPE_CHECKING:
+    from actors.entity import Entity
+    from tiles.game_map import GameMap
+
 
 class Engine:
-    def __init__(self, event_handler: EventHandler, game_map: GameMap, player: Entity):
+    game_map: GameMap
 
-        self.event_handler = event_handler
-        self.game_map = game_map
+    def __init__(self, player: Entity):
+
+        self.event_handler: EventHandler = EventHandler(self)
         self.player = player
-        self.update_fov()
 
-    def handle_events(self, events: Iterable[Any]):
-
-        for event in events:
-            action = self.event_handler.dispatch(event)
-
-            if action is None:
-                continue
-
-            action.perform(self, self.player)
-            self.update_fov()
+    def handle_enemy_turn(self) -> None:
+        for entity in self.game_map.entities - {self.player}:
+            print(f'The {entity.name} wants to move')
 
     def update_fov(self) -> None:
         self.game_map.visible[:] = compute_fov(
