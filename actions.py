@@ -18,7 +18,7 @@ class EscapedAction(Action):
         raise SystemExit()
 
 
-class MovementAction(Action):
+class ActionWithDirection(Action):
     def __init__(self, dx: int, dy: int):
         super().__init__()
 
@@ -26,12 +26,19 @@ class MovementAction(Action):
         self.dy = dy
 
     def perform(self, engine: Engine, entity: Entity) -> None:
+        raise NotImplementedError()
+
+
+class MovementAction(ActionWithDirection):
+    def perform(self, engine: Engine, entity: Entity) -> None:
         dest_x = entity.x + self.dx
         dest_y = entity.y + self.dy
 
         if not engine.game_map.in_bounds(dest_x, dest_y):
             return
         if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
+            return
+        if engine.game_map.get_blocking_entity(dest_x, dest_y):
             return
 
         entity.move(self.dx, self.dy)
