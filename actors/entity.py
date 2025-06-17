@@ -1,10 +1,12 @@
 from __future__ import annotations
-from typing import Tuple, TypeVar, TYPE_CHECKING, Optional
+from typing import Tuple, TypeVar, TYPE_CHECKING, Optional, Type
 
 import copy
 
 if TYPE_CHECKING:
     from tiles.game_map import GameMap
+    from actors.components.ai import BaseAi
+    from actors.components.fighter import Fighter
 
 T = TypeVar("T", bound="Entity")
 
@@ -57,3 +59,30 @@ class Entity:
         self.y += dy
 
 
+class Actor(Entity):
+    def __init__(self,
+                 *,
+                 x: int = 0,
+                 y: int = 0,
+                 char: str = "?",
+                 color: Tuple[int, int, int] = Tuple[255, 255, 255],
+                 name: str = "<Unnamed>",
+                 ai_cls: Type[BaseAi],
+                 fighter: Fighter):
+        super().__init__(
+            x=x,
+            y=y,
+            char=char,
+            color=color,
+            name=name,
+            blocks_movements=True
+        )
+
+        self.ai: Optional[BaseAi] = ai_cls(self)
+        self.fighter = fighter
+        self.fighter.entity = self
+
+    @property
+    def is_alive(self) -> bool:
+
+        return bool(self.ai)
