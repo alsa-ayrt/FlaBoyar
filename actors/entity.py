@@ -3,6 +3,8 @@ from typing import Tuple, TypeVar, TYPE_CHECKING, Optional, Type
 
 import copy
 
+from tiles.render_order import RenderOrder
+
 if TYPE_CHECKING:
     from tiles.game_map import GameMap
     from actors.components.ai import BaseAi
@@ -22,7 +24,8 @@ class Entity:
                  char: str = "?",
                  color: Tuple[int, int, int] = (255, 255, 255),
                  name: str = "<Unnamed>",
-                 blocks_movements: bool = False):
+                 blocks_movements: bool = False,
+                 render_order: RenderOrder = RenderOrder.CORPSE,):
 
         self.x = x
         self.y = y
@@ -30,6 +33,7 @@ class Entity:
         self.color = color
         self.name = name
         self.blocks_movements = blocks_movements
+        self.render_order = render_order
 
         if gamemap:
             self.gamemap = gamemap
@@ -75,7 +79,8 @@ class Actor(Entity):
             char=char,
             color=color,
             name=name,
-            blocks_movements=True
+            blocks_movements=True,
+            render_order=RenderOrder.ACTOR,
         )
 
         self.ai: Optional[BaseAi] = ai_cls(self)

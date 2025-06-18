@@ -55,6 +55,10 @@ class GameMap:
             default=tile_types.SHROUD,
         )
 
-        for entity in self.entities:
+        entities_render_sort = sorted(
+            self.entities, key=lambda x: x.render_order.value
+        )
+
+        for entity in entities_render_sort:
             if self.visible[entity.x, entity.y]:
                 console.print(entity.x, entity.y, entity.char, fg=entity.color)
