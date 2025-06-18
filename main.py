@@ -4,6 +4,7 @@ import copy
 from engine import Engine
 from actors import entities_factory
 from dungeon_generator import generate_dungeon
+from tiles import color
 
 
 def main():
@@ -34,6 +35,8 @@ def main():
         engine=engine,
     )
     engine.update_fov()
+
+    engine.message_log.add_message("Hello, Sinner, The Holy One wants you dead!!!", color.welcome_text)
 
     with tcod.context.new(columns=width, rows=height, tileset=tileset, title="Ayrtonikus", vsync=True,) as context:
         root_console = tcod.console.Console(width, height, order="F")

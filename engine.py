@@ -6,6 +6,8 @@ from tcod.console import Console
 from tcod.map import compute_fov
 
 from input_handlers import MainGameHandler
+from tiles.render_functions import render_bar
+from message_log import MessageLog
 
 if TYPE_CHECKING:
     from actors.entity import Actor
@@ -19,6 +21,7 @@ class Engine:
     def __init__(self, player: Actor):
 
         self.event_handler: EventHandler = MainGameHandler(self)
+        self.message_log = MessageLog()
         self.player = player
 
     def handle_enemy_turn(self) -> None:
@@ -38,10 +41,14 @@ class Engine:
 
         self.game_map.render(console)
 
-        console.print(x=1,
-                      y=40,
-                      string=f"HP: {self.player.fighter.hp}/{self.player.fighter.max_hp}",
-                      )
+        self.message_log.render(console=console, x=21, y=45, width=40, height=5)
+
+        render_bar(
+            console=console,
+            current_value=self.player.fighter.hp,
+            maximum_value=self.player.fighter.max_hp,
+            total_width=20,
+        )
 
         context.present(console)
 
