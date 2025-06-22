@@ -5,13 +5,12 @@ import numpy as np
 import tcod
 
 from actions import Action, MeleeAction, MovementAction, WaitAction
-from actors.components.base_component import BaseComponent
 
 if TYPE_CHECKING:
     from actors.entity import Actor
 
 
-class BaseAi(Action, BaseComponent):
+class BaseAi(Action):
     entity: Actor
 
     def perform(self) -> None:
